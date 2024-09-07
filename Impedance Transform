@@ -1,0 +1,19 @@
+clear; 
+close all; 
+Z0 = 50;  
+ZL = 75 + 1j * 100;
+lambda = 1; 
+beta = 2*pi/lambda; 
+l = 0:lambda/100:lambda/2; 
+ZL_t = imp_transf(Z0,ZL,beta,l); 
+figure; subplot(1,2,1); 
+plot(l,real(ZL_t),'r'); 
+grid; xlabel('l'); 
+title('real part'); 
+subplot(1,2,2); 
+plot(l,imag(ZL_t),'b'); 
+grid; xlabel('l'); title('imag part'); 
+function [ZL_t] = imp_transf(Z0,ZL,beta,l) 
+
+ZL_t = Z0 * (ZL * cos(beta*l) + 1j * Z0 * sin(beta*l))./(Z0 * cos(beta*l) + 1j * ZL * sin(beta*l));
+end
