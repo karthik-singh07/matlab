@@ -1,0 +1,9 @@
+z_load=50+0j;
+z0=50;
+gamma=(z_load-z0)./(z_load+z0);
+vswr=abs(1+gamma)/abs((1-gamma));
+figure;
+smithplot(gamma);
+title('Smith chart - reflection coefficient');
+fprintf('reflection coefficient (gamma): %.2f<%.2f degrees \n',real(gamma),rad2deg(angle(gamma)));
+fprintf('voltage standing wave ration (vswr):%.2f\n',vswr);
