@@ -1,0 +1,29 @@
+num_elements=2;
+element_spacing=0.5;
+frequency=1e9;
+wavelength=physconst('Lightspeed')/frequency;
+element_position_broadside=(0:num_elements-1)*element_spacing*wavelength;
+element_position_endfire=(0:num_elements-1)*element_spacing*wavelength*cos(pi/2);
+excitation_amplitude_broadside=ones(1,num_elements);
+excitation_phase_broadside=zeros(1, num_elements);
+excitation_amplitude_endfire=ones(1,num_elements);
+excitation_phase_endfire=[0,pi];
+theta=linspace(-pi/2, pi/2, 1000);
+AF_broadside=zeros(size(theta));
+for i=1:num_elements
+    AF_broadside=AF_broadside+excitation_amplitude_broadside(i)*exp(1i*(2*pi*element_position_broadside(i)/wavelength)*sin(theta)+excitation_phase_broadside(i));
+end
+AF_broadside=abs(AF_broadside / max(abs(AF_broadside)));
+AF_endfire=zeros(size(theta));
+for i=1:num_elements
+    AF_endfire=AF_endfire+excitation_amplitude_endfire(i)*exp(1i*(2*pi*element_position_endfire(i)/wavelength)*sin(theta)+excitation_phase_endfire(i));
+end
+
+AF_endfire = abs(AF_endfire / max(abs(AF_endfire)));
+figure;
+subplot(2,1,1);
+polarplot(theta, AF_broadside);
+title('Broadside Array Radiation Pattern');
+subplot(2,1,2);
+polarplot(theta, AF_endfire);
+title('Endfire Array Radiation Pattern');
